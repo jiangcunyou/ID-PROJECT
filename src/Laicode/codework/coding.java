@@ -244,52 +244,183 @@ public class coding {
 //        }
 //        return len;
 //    }
-    public List<Integer> allAnagrams(String sh, String lo){
-        List<Integer> res = new ArrayList<>();
-        if (lo.length() == 0){
-            return res;
+//    public List<Integer> allAnagrams(String sh, String lo){
+//        List<Integer> res = new ArrayList<>();
+//        if (lo.length() == 0){
+//            return res;
+//        }
+//        if (sh.length() > lo.length()){
+//            return res;
+//        }
+//        Map<Character, Integer> map = countMap(sh);
+//        int match = 0;
+//        for (int i = 0; i < lo.length(); i++) {
+//            char tmp = lo.charAt(i);
+//            Integer count = map.get(tmp);
+//            if (count != null){
+//                map.put(tmp, count - 1);
+//                if (count == 1){
+//                    match++;
+//                }
+//            }
+//            if (i >= sh.length()){
+//                tmp = lo.charAt(i - sh.length());
+//                count = map.get(tmp);
+//                if (count != null){
+//                    map.put(tmp, count + 1);
+//                    if (count == 0){
+//                        match--;
+//                    }
+//                }
+//            }
+//            if (match == map.size()){
+//                res.add(i - sh.length() + 1);
+//            }
+//        }
+//        return res;
+//    }
+//
+//    private Map<Character, Integer> countMap(String s){
+//        Map<Character, Integer> map = new HashMap<>();
+//        for (char ch: s.toCharArray()){
+//            Integer count = map.get(ch);
+//            if (count == null){
+//                map.put(ch, 1);
+//            }else {
+//                map.put(ch, count + 1);
+//            }
+//        }
+//        return map;
+//    }
+    public boolean twosum(int[] array, int target){
+        Arrays.sort(array);
+        int left = 0;
+        int right = array.length - 1;
+        while (left < right){
+            int sum = array[left] + array[right];
+            if (sum == target){
+                return true;
+            }else if (sum < target){
+                left++;
+            }else{
+                right--;
+            }
         }
-        if (sh.length() > lo.length()){
-            return res;
-        }
-        Map<Character, Integer> map = countMap(sh);
-        int match = 0;
-        for (int i = 0; i < lo.length(); i++) {
-            char tmp = lo.charAt(i);
-            Integer count = map.get(tmp);
-            if (count != null){
-                map.put(tmp, count - 1);
-                if (count == 1){
-                    match++;
+        return false;
+    }
+
+    public List<List<Integer>> twosumpairI(int[] array, int target){
+        List<List<Integer>> res = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < array.length; i++) {
+            List<Integer> indices = map.get(target - array[i]);
+            if (indices != null){
+                for (int j : indices) {
+                    res.add(Arrays.asList(j, i));
                 }
             }
-            if (i >= sh.length()){
-                tmp = lo.charAt(i - sh.length());
-                count = map.get(tmp);
-                if (count != null){
-                    map.put(tmp, count + 1);
-                    if (count == 0){
-                        match--;
-                    }
-                }
+            if (!map.containsKey(array[i])){
+                map.put(array[i], new ArrayList<>());
             }
-            if (match == map.size()){
-                res.add(i - sh.length() + 1);
+            map.get(array[i]).add(i);
+        }
+        return res;
+    }
+
+    public List<List<Integer>> twosumpairII(int[] array, int target){
+        Arrays.sort(array);
+        List<List<Integer>> res = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int left = 0;
+        int right = array.length - 1;
+        while (left < right){
+            if (left > 0 && array[left] == array[left - 1]){
+                left++;
+                continue;
+            }
+            int cur = array[left] + array[right];
+            if (cur == target){
+                res.add(Arrays.asList(array[left], array[right]));
+            }else if (cur < target){
+                left++;
+            }else {
+                right--;
             }
         }
         return res;
     }
 
-    private Map<Character, Integer> countMap(String s){
-        Map<Character, Integer> map = new HashMap<>();
-        for (char ch: s.toCharArray()){
-            Integer count = map.get(ch);
-            if (count == null){
-                map.put(ch, 1);
-            }else {
-                map.put(ch, count + 1);
+    public List<List<Integer>> Threesum(int[] array, int target){
+        Arrays.sort(array);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < array.length - 2; i++) {
+            if (i > 0 && array[i] == array[i - 1]){
+                continue;
+            }
+            int left = 0;
+            int right = array.length - 1;
+            while (left < right){
+                int cur = array[left] + array[right];
+                if (cur + array[i] == target){
+                    res.add(Arrays.asList(array[i],array[left],array[right]));
+                    while (left < right && array[left] == array[left - 1]){
+                        left++;
+                    }
+                }else if (cur + array[i] < target){
+                    left++;
+                }else {
+                    right--;
+                }
+
             }
         }
-        return map;
+        return res;
+    }
+
+    public boolean FourSum(int[] array, int target){
+        Arrays.sort(array);
+        for (int i = 0; i < array.length - 3; i++) {
+            for (int j = i + 1; j < array.length - 2; j++) {
+                int left = j + 1;
+                int right = array.length - 1;
+                int cur = target - array[i] - array[j];
+                while (left < right){
+                    int sum = array[left] + array[right];
+                    if (cur == sum){
+                        return true;
+                    }else if (cur < sum){
+                        left++;
+                    }else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    class Pair{
+        int left;
+        int right;
+        Pair(int left, int right){
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public boolean foursumII(int[] array, int target){
+        Map<Integer, Pair> map = new HashMap<>();
+        for (int i = 1; i < array.length; i++) {
+            for (int j = 0; j < i; j++) {
+                int pairSum = array[i] + array[j];
+                if (map.containsKey(target - pairSum) && map.get(target - pairSum).right < j){
+                    return true;
+                }
+                if (!map.containsKey(pairSum)){
+                    map.put(pairSum, new Pair(j, i));
+                }
+            }
+        }
+        return false;
     }
 }
