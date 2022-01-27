@@ -244,52 +244,93 @@ public class coding {
 //        }
 //        return len;
 //    }
-    public List<Integer> allAnagrams(String sh, String lo){
-        List<Integer> res = new ArrayList<>();
-        if (lo.length() == 0){
-            return res;
-        }
-        if (sh.length() > lo.length()){
-            return res;
-        }
-        Map<Character, Integer> map = countMap(sh);
-        int match = 0;
-        for (int i = 0; i < lo.length(); i++) {
-            char tmp = lo.charAt(i);
-            Integer count = map.get(tmp);
-            if (count != null){
-                map.put(tmp, count - 1);
-                if (count == 1){
-                    match++;
-                }
-            }
-            if (i >= sh.length()){
-                tmp = lo.charAt(i - sh.length());
-                count = map.get(tmp);
-                if (count != null){
-                    map.put(tmp, count + 1);
-                    if (count == 0){
-                        match--;
-                    }
-                }
-            }
-            if (match == map.size()){
-                res.add(i - sh.length() + 1);
-            }
-        }
-        return res;
-    }
-
-    private Map<Character, Integer> countMap(String s){
-        Map<Character, Integer> map = new HashMap<>();
-        for (char ch: s.toCharArray()){
-            Integer count = map.get(ch);
-            if (count == null){
-                map.put(ch, 1);
-            }else {
-                map.put(ch, count + 1);
-            }
-        }
-        return map;
+//    public List<Integer> allAnagrams(String sh, String lo){
+//        List<Integer> res = new ArrayList<>();
+//        if (lo.length() == 0){
+//            return res;
+//        }
+//        if (sh.length() > lo.length()){
+//            return res;
+//        }
+//        Map<Character, Integer> map = countMap(sh);
+//        int match = 0;
+//        for (int i = 0; i < lo.length(); i++) {
+//            char tmp = lo.charAt(i);
+//            Integer count = map.get(tmp);
+//            if (count != null){
+//                map.put(tmp, count - 1);
+//                if (count == 1){
+//                    match++;
+//                }
+//            }
+//            if (i >= sh.length()){
+//                tmp = lo.charAt(i - sh.length());
+//                count = map.get(tmp);
+//                if (count != null){
+//                    map.put(tmp, count + 1);
+//                    if (count == 0){
+//                        match--;
+//                    }
+//                }
+//            }
+//            if (match == map.size()){
+//                res.add(i - sh.length() + 1);
+//            }
+//        }
+//        return res;
+//    }
+//
+//    private Map<Character, Integer> countMap(String s){
+//        Map<Character, Integer> map = new HashMap<>();
+//        for (char ch: s.toCharArray()){
+//            Integer count = map.get(ch);
+//            if (count == null){
+//                map.put(ch, 1);
+//            }else {
+//                map.put(ch, count + 1);
+//            }
+//        }
+//        return map;
+//    }
+//    public boolean exist(int[] array, int target){
+//        Map<Integer, Pair> map = new HashMap<>();
+//        for (int i = 1; i < array.length; i++) {
+//            for (int j = 0; j < i; j++) {
+//                int pairSum = array[j] + array[i];
+//                if (map.containsKey(target - pairSum) && map.get(target - pairSum).right < j){
+//                    return true;
+//                }
+//                if (!map.containsKey(pairSum)){
+//                    map.put(pairSum, new Pair(j, i));
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//}
+//
+//class Pair{
+//    int left;
+//    int right;
+//
+//    Pair(int left, int right){
+//        this.left = left;
+//        this.right = right;
+//    }
+    public boolean existSum(int[] array, int target){
+        Arrays.sort(array);
+        int left = 0;
+        int right = array.length - 1;
+         while (left < right){
+             int sum = array[left] + array[right];
+             if (sum == target){
+                 return true;
+             }else if (sum < target){
+                 left++;
+             }else {
+                 right--;
+             }
+         }
+         return false;
     }
 }
