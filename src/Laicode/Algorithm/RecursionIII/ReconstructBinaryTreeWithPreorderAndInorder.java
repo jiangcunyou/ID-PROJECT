@@ -44,8 +44,32 @@ The sequence [1, 2, #, 3, 4, #, #, #] represents the following binary tree:
     4
 * */
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReconstructBinaryTreeWithPreorderAndInorder {
     public TreeNode reconstruct(int[] inOrder, int[] preOrder) {
         // Write your solution here
+        Map<Integer, Integer> index = indexmap(inOrder);
+        return helper(preOrder, index, 0, inOrder.length - 1, 0, preOrder.length - 1);
+    }
+
+    private Map<Integer, Integer> indexmap(int[] inOrder){
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < inOrder.length; i++) {
+            map.put(inOrder[i], i);
+        }
+        return map;
+    }
+
+    private TreeNode helper(int[] preOrder, Map<Integer, Integer> index, int inleft, int inright, int preleft, int preright){
+        if(inleft > inright){
+            return null;
+        }
+        TreeNode root = new TreeNode(preOrder[preleft]);
+        int inmid = index.get(root.key);
+        root.left = helper(preOrder, index, inleft, inmid - 1, preleft + 1, preleft + inmid - inleft);
+        root.right = helper(preOrder, index, inmid + 1, inright, preright + inmid - inright + 1, preright);
+        return root;
     }
 }
