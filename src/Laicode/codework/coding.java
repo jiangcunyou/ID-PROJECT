@@ -423,4 +423,36 @@ public class coding {
         }
         return false;
     }
+
+    public int mindif(int[] array){
+        int sum = sum(array);
+        int[] total = new int[]{ sum};
+        int[] cur = new int[]{ 0};
+        int[] min = new int[]{Integer.MAX_VALUE};
+        List<Integer> res = new ArrayList<>();
+        helper(array, 0, total, min, cur, res);
+        return min[0];
+    }
+
+    private void helper(int[] array, int level, int[] total, int[] min, int[] cur, List<Integer> res){
+        if (level == array.length){
+            if (min[0] > Math.abs(total[0] - cur[0] - cur[0])){
+                min[0] = Math.abs(total[0] - cur[0] - cur[0]);
+            }
+            return ;
+        }
+        res.add(array[level]);
+        helper(array, level + 1, total, min, new int[]{cur[0] + array[0]}, res);
+        res.remove(res.size() - 1);
+        helper(array, level + 1, total, min, cur, res);
+    }
+    private int sum(int[] array){
+        int sum = 0;
+        for (int i :
+                array) {
+            sum += array[i];
+        }
+        return sum;
+    }
+
 }
