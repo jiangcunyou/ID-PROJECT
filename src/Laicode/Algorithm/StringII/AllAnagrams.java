@@ -27,7 +27,7 @@ public class AllAnagrams {
         if (sh.length() > lo.length()){
             return res;
         }
-        Map<Character, Integer> map = countMap(sh);
+        Map<Character, Integer> map = mapbuild(sh);
         int match = 0;
         for (int i = 0; i < lo.length(); i++) {
             char tmp = lo.charAt(i);
@@ -55,24 +55,26 @@ public class AllAnagrams {
         return res;
     }
 
-    private Map<Character, Integer> countMap(String s){
-      Map<Character, Integer> map = new HashMap<>();
-      for (char ch: s.toCharArray()){
-          Integer count = map.get(ch);
-          if (count == null){
-            map.put(ch, 1);
-          }else {
-              map.put(ch, count + 1);
-          }
-      }
-      return map;
+    private Map<Character, Integer> mapbuild(String sh){
+        Map<Character, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < sh.length(); i++){
+            char tmp = sh.charAt(i);
+            Integer count = map.get(tmp);
+            if(count == null){
+                map.put(tmp, 1);
+            }else{
+                map.put(tmp, count + 1);
+            }
+        }
+        return map;
     }
 
     public static void main(String[] args) {
-        String sh = "aaab";
-        String lo = "aaabcbaaac";
+        String sh = "ab";
+        String lo = "aaacccabasdwqdeaab";
 
         AllAnagrams aan = new AllAnagrams();
-        aan.allAnagrams(sh, lo);
+        System.out.println(aan.allAnagrams(sh, lo));
     }
 }

@@ -50,6 +50,11 @@ public class AllPermutationsII {
         array[left] = array[right];
         array[right] = tmp;
     }
+
+    public static void main(String[] args) {
+        AllPermutationsII ap2 = new AllPermutationsII();
+        ap2.permutations("aba");
+    }
 }
 
 //TC: O(n * n!)

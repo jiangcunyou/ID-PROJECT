@@ -455,4 +455,34 @@ public class coding {
         return sum;
     }
 
+    public int[] kSmallest(int[] array, int k) {
+        // Write your solution here
+        if(k >= array.length){
+            return array;
+        }
+        PriorityQueue<Integer> minheap = new PriorityQueue<>(k);
+        for(int i = 0; i < k; i++){
+            minheap.offer(array[i]);
+        }
+
+        for(int i = k; i < array.length; i++){
+            if(minheap.peek() > array[i]){
+                minheap.poll();
+                minheap.offer(array[i]);
+            }
+        }
+        int[] res = new int[k];
+        for(int i = 0; i < minheap.size(); i++){
+            res[i] = minheap.poll();
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        int[] array = new int[]{1,2,3,4};
+        int k = 2;
+        coding cd = new coding();
+        cd.kSmallest(array, k);
+    }
+
 }

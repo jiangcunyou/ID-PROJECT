@@ -12,39 +12,35 @@ L = 1 -> 2 -> 3 -> null, is reordred to 1 -> 3 -> 2 -> null
 * */
 
 public class ReorderLinkedList{
-    public ListNode reorder(ListNode head){
-
-        if (head == null || head.next == null){
+    public ListNode reorder(ListNode head) {
+        // Write your solution here
+        if(head == null || head.next == null){
             return head;
         }
-
-        ListNode mid = middleNode(head);
-        ListNode one  = head;
+        ListNode mid = findMiddle(head);
+        ListNode one = head;
         ListNode two = mid.next;
-
         mid.next = null;
 
         return merge(one, reverse(two));
     }
 
-    public ListNode middleNode(ListNode head){
+    private ListNode findMiddle(ListNode head){
         ListNode fast = head;
         ListNode slow = head;
-
-        while (fast.next != null && fast.next.next != null){
+        while(fast.next != null && fast.next.next != null){
             fast = fast.next.next;
             slow = slow.next;
         }
         return slow;
     }
 
-    public ListNode reverse(ListNode head){
-        if (head == null || head.next == null){
+    private ListNode reverse(ListNode head){
+        if(head == null || head.next == null){
             return head;
         }
         ListNode prev = null;
-
-        while (head != null){
+        while(head != null){
             ListNode next = head.next;
             head.next = prev;
             prev = head;
@@ -53,25 +49,38 @@ public class ReorderLinkedList{
         return prev;
     }
 
-    public ListNode merge(ListNode one, ListNode two){
-
-        ListNode dummy = new ListNode(-1);
-        ListNode cur = dummy;
-
-        while (one != null && two != null){
-            cur.next = one;
+    private ListNode merge(ListNode one, ListNode two){
+        ListNode res = new ListNode(0);
+        ListNode dum = res;
+        while(one != null && two != null){
+            res.next = one;
             one = one.next;
-            cur.next.next = two;
+            res.next.next = two;
             two = two.next;
-            cur = cur.next.next;
+            res = res.next.next;
         }
-
         if(one != null){
-            cur.next = one;
-        }else{
-            cur.next = two;
+            res.next = one;
+        }else if(two != null){
+            res.next = two;
         }
-        return dummy.next;
+        return dum.next;
+    }
+
+    public static void main(String[] args) {
+        ListNode n1 = new ListNode(1);
+        ListNode n2 = new ListNode(2);
+        ListNode n3 = new ListNode(3);
+        ListNode n4 = new ListNode(4);
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        ReorderLinkedList rll = new ReorderLinkedList();
+        rll.reorder(n1);
+        System.out.println(n1.value);
+        System.out.println(n1.next.value);
+        System.out.println(n1.next.next.value);
+        System.out.println(n1.next.next.next.value);
     }
 }
 
